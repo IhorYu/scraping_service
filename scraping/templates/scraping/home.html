@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for obj in object_list  %}
+
+<div class="card my-3">
+    <div class="card-header">
+        <a href="{{ obj.url }}">{{ obj.title }}</a>
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{ obj.description }}</p>
+        <p>{{ obj.city }} | {{ obj.language }} |
+            <small>{{ obj.timestamp|date:"d.m.Y" }}</small></p>
+        <!--        <a href="#" class="btn btn-primary">Go somewhere</a>-->
+    </div>
+</div>
+
+
+{% endfor %}
+{% endblock %}
