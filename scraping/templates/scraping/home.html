@@ -1,32 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% for obj in object_list  %}
-
-<div class="card my-3">
-    <div class="card-header">
-        <a href="{{ obj.url }}">{{ obj.title }}</a>
-    </div>
-    <div class="card-body">
-        <h4>{{ obj.company }} </h4>
-        <p class="card-text">{{ obj.description }}</p>
-        <p>{{ obj.city }} | {{ obj.language }} |
-            <small>{{ obj.timestamp|date:"d.m.Y" }}</small></p>
-        <!--        <a href="#" class="btn btn-primary">Go somewhere</a>-->
-    </div>
-</div>
-
-{% empty %}
-<div class="col-md-6 mx-auto">
-    <h3>Sorry, your search returned no results. </h3>
-</div>
-{% endfor %}
-
 <div class="row">
-    <div class="col-md-6 mx-auto">
-        <form method="GET" action="">
-            {{ form.as_p }}
-            <input type="submit" value="Search">
+    <div class="row">
+        <div class="col"><h2 class="text-center my-3">Scraping Service</h2></div>
+    </div>
+    <div class="col-md-8 mx-auto">
+        <h4 class="my-2">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+            ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et
+            ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
+            dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+            magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
+            kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</h4>
+        <form method="GET" action="{% url 'list' %} ">
+            {{ form.as_p }} Search
+            <div>
+                <button type="submit" class="btn btn-primary">Search</button>
         </form>
     </div>
 </div>

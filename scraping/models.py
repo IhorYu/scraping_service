@@ -61,7 +61,7 @@ class Vacancy(models.Model):
 
 class Errors(models.Model):
     timestamp = models.DateField(auto_now_add=True)
-    datat = models.JSONField()
+    data = models.JSONField()
 
 
 class Url(models.Model):
