@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.hashers import check_password
 
+from scraping.models import City, Language
+
 User = get_user_model()
 
 
@@ -23,3 +25,33 @@ class UserLoginForm(forms.Form):
             if not user:
                 raise forms.ValidationError('Account does not exist')
             return super(UserLoginForm, self).clean(*args, **kwargs)
+
+
+class UserRegistrationForm(forms.ModelForm):
+    email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Enter password')
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Repeat password')
+
+    class Meta:
+        model = User
+        fields = ('email',)
+
+    def clean_password2(self):
+        data = self.cleaned_data
+        if data['password'] != data['password2']:
+            raise forms.ValidationError('Passwords do not match')
+        return data['password2']
+
+
+class UserUpdateForm(forms.Form):
+    city = forms.ModelChoiceField(queryset=City.objects.all(), to_field_name='slug', required=True,
+                                  widget=forms.Select(attrs={'class': 'form-control'}))
+    language = forms.ModelChoiceField(queryset=Language.objects.all(), to_field_name='slug', required=True,
+                                      widget=forms.Select(attrs={'class': 'form-control'}))
+
+    send_email = forms.BooleanField(required=False, widget=forms.CheckboxInput,
+                                    label="Send emails about new vacancies?")
+
+    class Meta:
+        model = User
+        fields = ('city', 'language', 'send_email')
