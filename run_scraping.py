@@ -1,7 +1,7 @@
 import asyncio
-import codecs
-import os, sys
 import datetime as dt
+import os
+import sys
 
 from django.contrib.auth import get_user_model
 from django.db import DatabaseError
