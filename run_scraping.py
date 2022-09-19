@@ -71,6 +71,7 @@ tmp_tasks = [(func, data['url_data'][key], data['city'], data['language'])
 #         j, e = func(url, city=data['city'], language=data['language'])
 #         jobs += j
 #         errors += e
+
 if tmp_tasks:
     tasks = asyncio.wait([loop.create_task(main(f)) for f in tmp_tasks])
     loop.run_until_complete(tasks)
@@ -82,6 +83,7 @@ for job in jobs:
         v.save()
     except DatabaseError:
         pass
+
 if errors:
     qs = Errors.objects.filter(timestamp=dt.date.today())
     if qs.exists():

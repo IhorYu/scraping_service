@@ -1,5 +1,6 @@
 import os
 import sys
+import datetime
 import django
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMultiAlternatives
@@ -9,10 +10,13 @@ sys.path.append(proj)
 os.environ["DJANGO_SETTINGS_MODULE"] = "scraping_service.settings"
 
 django.setup()
-from scraping.models import Vacancy
+from scraping.models import Vacancy, Errors, Url
 from scraping_service.settings import EMAIL_HOST_USER
 
-subject = 'Vacancies'
+ADMIN_USER = EMAIL_HOST_USER
+
+today = datetime.date.today()
+subject = f'Vacancies for {today}'
 text_content = 'Vacancies'
 from_email = EMAIL_HOST_USER
 
@@ -30,7 +34,7 @@ if users_dct:
         params['city_id__in'].append(pair[0])
         params['language_id__in'].append(pair[1])
 
-    qs = Vacancy.objects.filter(**params).values()
+    qs = Vacancy.objects.filter(**params, timestamp=today).values()
     vacancies = {}
     for i in qs:
         vacancies.setdefault((i['city_id'], i['language_id']), [])
@@ -43,8 +47,40 @@ if users_dct:
             html += f'<p> {row["description"]} </p>'
             html += f'<p> {row["company"]} </p><br><hr>'
         _html = html if html else empty
-        for email in emails:
-            to = email
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-            msg.attach_alternative(_html, "text/html")
-            msg.send()
+        # for email in emails:
+        #     to = email
+        #     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        #     msg.attach_alternative(_html, "text/html")
+        #     msg.send()
+
+qs = Errors.objects.filter(timestamp=today)
+subject = ''
+text_content = ''
+to = ADMIN_USER
+html = ''
+print(qs.first().data)
+if qs.exists():
+    error = qs.first()
+    data = error.data
+    html = ''
+    for i in data:
+        html = f'<p><a href="{i["url"]}">Error: {i["title"]}</a></p>'
+    subject = f'Errors {today}'
+    text_content = ''
+    to = ADMIN_USER
+
+qs = Url.objects.all().values('city', 'language')
+urls_dct = {(i['city_id'], i['language_id']): True for i in qs}
+urls_err = ''
+for keys in users_dct.keys():
+    if keys not in urls_dct:
+        urls_err += f'<p>for the city {keys[0]} and for the programming language {keys[1]} missing links</p><br>'
+
+if urls_err:
+    subject += 'missing links'
+    html += urls_err
+
+if subject:
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    msg.attach_alternative(html, "text/html")
+    msg.send()
