@@ -30,18 +30,30 @@ Register
 
 <div class="row my-5">
     <div class="col-md-6 mx-auto">
-        <p class="my-2">if you have not found a suitable city and programming language for you, you can fill out the form below, after adding the city and programming language, you will receive an email</p>
-        <form method="POST" action="{% url 'accounts:contact' %}"> {% csrf_token %}
-            <div class="form-group">
-                {{ contact_form.as_p }}
-            </div>
-            <button type="submit" class="btn btn-primary">Send</button>
+        <p class="my-2">If you have not found a suitable city and programming language for you, you can fill out the
+            form below, after adding the city and programming language, you will receive an email.</p>
 
-        </form>
+        <p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapsed"
+                    aria-expanded="false" aria-controls="collapseExample">
+                Show form
+            </button>
+        </p>
+        <div class="collapse" id="collapsed">
+            <div class="card card-body">
+                <form method="POST" action="{% url 'accounts:contact' %}"> {% csrf_token %}
+                    <div class="form-group">
+                        {{ contact_form.as_p }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send</button>
+
+                </form>
+            </div>
+        </div>
+
 
     </div>
 </div>
-
 
 {% endblock %}
 
