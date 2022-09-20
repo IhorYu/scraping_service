@@ -29,6 +29,9 @@ def logout_view(request):
 
 def register_view(request):
     form = UserRegistrationForm(request.POST or None)
+    if request.user.is_authenticated:
+        messages.success(request, 'You are already registered')
+        return redirect('home')
     if form.is_valid():
         new_user = form.save(commit=False)
         new_user.set_password(form.cleaned_data['password'])
@@ -86,6 +89,7 @@ def contact(request):
                 err = qs.first()
                 # data = err.data.get('user_data', [])
                 data = []
+                err.data = []
                 data.append({'city': city, 'language': language, 'email': email})
                 err.data.append(data)
                 err.save()

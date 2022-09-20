@@ -3,15 +3,13 @@
 {% block content %}
 <div class="row">
     <div class="row">
-        <div class="col"><h2 class="text-center my-3">Scraping Service</h2></div>
+        <div class="col"><h2 class="text-center my-3">Job Finder</h2></div>
     </div>
     <div class="col-md-8 mx-auto">
-        <h4 class="my-2">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-            ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et
-            ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-            dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
-            magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-            kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</h4>
+        <h4 class="my-3 text-center">Welcome to the service for collecting vacancies from Ukrainian job search sites. You can simply
+            view vacancies for your chosen categories. To receive emails with new vacancies, or to send a request to add
+            a new city/programming language - you can <a href="{% url 'accounts:register' %} ">register</a>. Pleasant use!</h4>
+         <p class="text-center">Best regards, Ihor Yu</p>
         <form method="GET" action="{% url 'list' %} ">
             {{ form.as_p }} Search
             <div>
