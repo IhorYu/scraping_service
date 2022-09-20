@@ -58,7 +58,6 @@ subject = ''
 text_content = ''
 to = ADMIN_USER
 html = ''
-print(qs.first().data)
 if qs.exists():
     error = qs.first()
     data = error.data

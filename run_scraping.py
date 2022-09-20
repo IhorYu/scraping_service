@@ -88,7 +88,8 @@ if errors:
     qs = Errors.objects.filter(timestamp=dt.date.today())
     if qs.exists():
         err = qs.first()
-        err.data.update({'errors': errors})
+        # err.data.update({'errors': errors})
+        err.data = [{'errors': errors}]
         err.save()
     else:
         er = Errors(data=f'errors:{errors}').save()
@@ -96,5 +97,5 @@ if errors:
 # h = codecs.open('work.txt', 'w', 'utf-8')
 # h.write(str(jobs))
 # h.close()
-# ten_days_ago = dt.date.today() - dt.timedelta(10)
-# Vacancy.objects.filter(timestamp__lte=ten_days_ago).delete()
+ten_days_ago = dt.date.today() - dt.timedelta(10)
+Vacancy.objects.filter(timestamp__lte=ten_days_ago).delete()
