@@ -34,12 +34,12 @@ Register
             form below, after adding the city and programming language, you will receive an email.</p>
 
         <p>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapsed"
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsed"
                     aria-expanded="false" aria-controls="collapseExample">
                 Show form
             </button>
         </p>
-        <div class="collapse" id="collapsed">
+        <div class="collapsing" id="collapsed">
             <div class="card card-body">
                 <form method="POST" action="{% url 'accounts:contact' %}"> {% csrf_token %}
                     <div class="form-group">
